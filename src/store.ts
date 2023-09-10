@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReduce from "./module/auth/redux-toolkit/authSlice";
+import guestsReduce from "./module/guests/redux-toolkit/guestsSlice";
 
 export const store = configureStore({
-  reducer: { auth: authReduce },
+  reducer: { auth: authReduce, guests: guestsReduce },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

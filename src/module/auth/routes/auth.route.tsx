@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import Login from "../components/Login";
+import Login from "../screens/Login";
 
 const authRouter: RouteObject[] = [
   {
