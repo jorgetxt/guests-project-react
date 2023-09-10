@@ -5,9 +5,11 @@ import departmentsReduce from "./module/departments/redux-toolkit/departmentsSli
 import { ApiBase } from "./module/shared/hooks/baseApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { departmentsApi } from "./module/departments/redux-toolkit/departmentsApiSlice";
+import { authApi } from "./module/auth/redux-toolkit/authApisSlice";
 
 export const store = configureStore({
   reducer: {
+    [authApi.reducerPath]: authApi.reducer,
     auth: authReduce,
     guests: guestsReduce,
     [departmentsApi.reducerPath]: departmentsApi.reducer,

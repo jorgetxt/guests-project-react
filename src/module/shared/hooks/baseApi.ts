@@ -9,6 +9,8 @@ export const ApiBase = createApi({
     baseUrl: `${import.meta.env.VITE_REACT_API_URL}`,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("x-token");
+      headers.set("Content-Type", `application/json`);
+      headers.set("Access-Control-Allow-Origin", "http://127.0.0.1:5173/");
 
       if (token) {
         headers.set("authorization", `Bearer ${token}`);

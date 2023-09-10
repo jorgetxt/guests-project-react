@@ -1,16 +1,21 @@
-import { TextField, Button, Grid, Typography } from "@mui/material";
+import { TextField, Grid, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { loginSchema } from "../constants/login.schema";
+import { useLoginMutation } from "../redux-toolkit/authApisSlice";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function LoginForm() {
+  const [login, { isLoading }] = useLoginMutation();
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
     validationSchema: loginSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: ({ password, username }) => {
+      login({ password, username });
+      // alert(JSON.stringify(values, null, 2));
     },
   });
   return (
@@ -47,9 +52,15 @@ function LoginForm() {
           )}
         </Grid>
         <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            loading={isLoading}
+            fullWidth
+          >
             Iniciar sesión
-          </Button>
+          </LoadingButton>
         </Grid>
       </Grid>
     </form>
