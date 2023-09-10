@@ -1,13 +1,25 @@
-import { TextField, Button, Grid, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  Typography,
+  Autocomplete,
+} from "@mui/material";
 import { useFormik } from "formik";
 import { guestSchema } from "../constants/guest.schema.yup";
 import { Guest } from "../schemas/guest.schema";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+import status from "../constants/status";
+import dayjs from "dayjs";
+import { useGetDepartmentsQuery } from "../../departments/redux-toolkit/departmentsApiSlice";
 
-function CreateForm() {
+function CreateGuestForm() {
   const formik = useFormik<Guest>({
     initialValues: {
       cedula: "",
-      date: new Date(),
+      date: null as unknown as Date,
       departamentId: 0,
       firstname: "",
       hour: "",
@@ -22,6 +34,9 @@ function CreateForm() {
       alert(JSON.stringify(values, null, 2));
     },
   });
+
+  const { data = [], error, isLoading } = useGetDepartmentsQuery();
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2}>
@@ -70,7 +85,6 @@ function CreateForm() {
             </Typography>
           )}
         </Grid>
-
         <Grid item xs={12}>
           <TextField
             fullWidth
@@ -86,7 +100,6 @@ function CreateForm() {
             </Typography>
           )}
         </Grid>
-
         <Grid item xs={12}>
           <TextField
             fullWidth
@@ -102,7 +115,6 @@ function CreateForm() {
             </Typography>
           )}
         </Grid>
-
         <Grid item xs={12}>
           <TextField
             fullWidth
@@ -118,7 +130,99 @@ function CreateForm() {
             </Typography>
           )}
         </Grid>
+        <Grid item xs={12}>
+          <Autocomplete
+            options={data}
+            loading={isLoading}
+            loadingText="Cargando departamentos disponibles..."
+            getOptionLabel={(option) => option.name}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Departamentos"
+                error={Boolean(
+                  formik.errors.departamentId && formik.touched.departamentId
+                )}
+                placeholder="Seleccione un departamento disponible"
+              />
+            )}
+            onChange={(_, value) =>
+              formik.setFieldValue("departamentId", value?.id || 0)
+            }
+            fullWidth
+            clearIcon={null}
+          />
 
+          {formik.touched.departamentId && formik.errors.departamentId && (
+            <Typography variant="body2" color="red">
+              {error as string}
+              {formik.errors.departamentId}
+            </Typography>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          <Autocomplete
+            options={status}
+            getOptionLabel={(option) => option}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Estados"
+                error={Boolean(formik.errors.status && formik.touched.status)}
+                placeholder="Seleccione un estado disponible"
+              />
+            )}
+            onChange={(_, value) => formik.setFieldValue("status", value || "")}
+            fullWidth
+            clearIcon={null}
+          />
+
+          {formik.touched.status && formik.errors.status && (
+            <Typography variant="body2" color="red">
+              {formik.errors.status}
+            </Typography>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Fecha de registro"
+              value={formik.values.date ? dayjs(formik.values.date) : null}
+              onChange={(newValue) => {
+                formik.setFieldValue("date", newValue);
+              }}
+              sx={{ width: "100%" }}
+            />
+          </LocalizationProvider>
+
+          {formik.touched.date && formik.errors.date && (
+            <Typography variant="body2" color="red">
+              {`${formik.errors.date}`}
+            </Typography>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+              label="Fecha y hora de entrada"
+              sx={{ width: "100%" }}
+              value={
+                formik.values.registerDate
+                  ? dayjs(formik.values.registerDate)
+                  : null
+              }
+              onChange={(newValue) =>
+                formik.setFieldValue("registerDate", newValue)
+              }
+            />
+          </LocalizationProvider>
+
+          {formik.touched.registerDate && formik.errors.registerDate && (
+            <Typography variant="body2" color="red">
+              {`${formik.errors.registerDate}`}
+            </Typography>
+          )}
+        </Grid>
         <Grid item xs={12}>
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Crear invitado
@@ -129,4 +233,4 @@ function CreateForm() {
   );
 }
 
-export default CreateForm;
+export default CreateGuestForm;

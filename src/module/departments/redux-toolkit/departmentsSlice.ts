@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export interface AuthState {
+export interface DepartmentsState {
   value: number;
 }
 
-const initialState: AuthState = {
+const initialState: DepartmentsState = {
   value: 0,
 };
 

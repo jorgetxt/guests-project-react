@@ -1,9 +1,9 @@
-import CreateForm from "../components/CreateGuestForm";
+import CreateGuestForm from "../components/CreateGuestForm";
 
 const CreateGuest = () => {
   return (
     <>
-      <CreateForm />
+      <CreateGuestForm />
     </>
   );
 };

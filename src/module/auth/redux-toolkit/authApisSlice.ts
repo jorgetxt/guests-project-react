@@ -1,6 +1,6 @@
 import { ApiBase } from "./../../shared/hooks/baseApi";
 export const academicRequestsTags = ApiBase.enhanceEndpoints({
-  addTagTypes: ["Product"],
+  addTagTypes: ["Auth"],
 });
 
 const extendedApi = ApiBase.injectEndpoints({
