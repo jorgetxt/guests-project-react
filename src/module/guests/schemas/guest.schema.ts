@@ -5,7 +5,7 @@ export interface Guest {
   departamentId: number;
   firstname: string;
   lastname: string;
-  hour: string;
+  // hour: string;
   note: string;
   reason: string;
   registerDate: Date;

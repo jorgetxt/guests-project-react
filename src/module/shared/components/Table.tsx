@@ -71,7 +71,7 @@ export default function Table({ dataHeader, dataRow, option }: Props) {
           <tr>
             <CustomTablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-              colSpan={dataRow.length}
+              colSpan={dataHeader.length + 1}
               count={dataRow.length}
               rowsPerPage={rowsPerPage}
               page={page}

@@ -1,18 +1,25 @@
 import { ApiBase } from "../../shared/hooks/baseApi";
-export const academicRequestsTags = ApiBase.enhanceEndpoints({
-  addTagTypes: ["Product"],
+import { Guest } from "../schemas/guest.schema";
+export const guestsRequestsTags = ApiBase.enhanceEndpoints({
+  addTagTypes: ["Guest"],
 });
 
-const extendedApi = ApiBase.injectEndpoints({
-  /**
-   * @GET all student records by student-code
-   */
+const extendedApi = guestsRequestsTags.injectEndpoints({
   endpoints: (build) => ({
-    example: build.query({
-      query: () => "test",
+    getGuests: build.query<Guest[], void>({
+      query: () => "/guests",
+      providesTags: (result) =>
+        result ? result.map(({ id }) => ({ type: "Guest", id })) : [],
     }),
+
+    addGuest: build.mutation<Guest, Guest>({
+      query: (value) => ({ url: "guests", method: "POST", body: value }),
+      invalidatesTags: ["Guest"],
+    }),
+
+    //
   }),
   overrideExisting: false,
 });
 
-export const { useExampleQuery } = extendedApi;
+export const { useGetGuestsQuery, useAddGuestMutation } = extendedApi;

@@ -1,5 +1,7 @@
+import { isAuth, auth } from "./authSlice";
 import { LoginResponse, LoginSend } from "../schemas/login.schema";
 import { ApiBase } from "./../../shared/hooks/baseApi";
+
 export const academicRequestsTags = ApiBase.enhanceEndpoints({
   addTagTypes: ["Auth"],
 });
@@ -11,9 +13,17 @@ export const authApi = ApiBase.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<LoginResponse, LoginSend>({
       query: (value) => ({ url: "auth/login", method: "POST", body: value }),
-      transformResponse: (response: { data: LoginResponse }) => {
-        localStorage.setItem("x-token", response.data.token);
-        return response.data;
+
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          localStorage.setItem("x-token", data.token);
+
+          dispatch(isAuth(true));
+          dispatch(auth(data));
+        } catch (err) {
+          console.log(err);
+        }
       },
     }),
   }),

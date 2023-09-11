@@ -2,40 +2,60 @@ import { useAppDispatch, useAppSelector } from "../../shared/hooks/reduxHook";
 import { increment } from "../redux-toolkit/guestsSlice";
 import Button from "@mui/material/Button";
 import Table from "../../shared/components/Table";
+import { useGetGuestsQuery } from "../redux-toolkit/guestsApiSlice";
+import { Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-function Product() {
+function Guests() {
+  const navigate = useNavigate();
+
+  const { data = [], isLoading } = useGetGuestsQuery();
+
   const count = useAppSelector((state) => state.guests.value);
   const dispatch = useAppDispatch();
 
+  const dataInRow = data?.map(({ date, note, status, firstname, lastname }) => [
+    new Date(date).toLocaleString(),
+    firstname + " " + lastname,
+    note ? "si" : "no",
+    status,
+  ]);
+
+  const headers = ["Fecha", "Nombre", "Novedad", "Estado"];
+
   return (
-    <>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => dispatch(increment())}
-      >
-        Producto suma {count}
-      </Button>
-      <Table
-        dataHeader={["test1", "test2", "test3", "test4"]}
-        dataRow={[
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-          ["test1", "test2", "test3", "test4"],
-        ]}
-        option={<>Test</>}
-      />
-    </>
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch(increment())}
+        >
+          Producto suma {count}
+        </Button>
+      </Grid>
+      <Grid item xs={6}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("create")}
+        >
+          Agregar una novedad
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
+        <Table
+          dataHeader={headers}
+          dataRow={isLoading ? [headers.map(() => "cargando")] : dataInRow}
+          option={
+            <Button variant="text" color="primary" size="small">
+              ver más
+            </Button>
+          }
+        />
+      </Grid>
+    </Grid>
   );
 }
 
-export default Product;
+export default Guests;

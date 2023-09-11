@@ -1,10 +1,4 @@
-import {
-  TextField,
-  Button,
-  Grid,
-  Typography,
-  Autocomplete,
-} from "@mui/material";
+import { TextField, Grid, Typography, Autocomplete } from "@mui/material";
 import { useFormik } from "formik";
 import { guestSchema } from "../constants/guest.schema.yup";
 import { Guest } from "../schemas/guest.schema";
@@ -14,8 +8,20 @@ import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import status from "../constants/status";
 import dayjs from "dayjs";
 import { useGetDepartmentsQuery } from "../../departments/redux-toolkit/departmentsApiSlice";
+import { useAddGuestMutation } from "../redux-toolkit/guestsApiSlice";
+import { LoadingButton } from "@mui/lab";
 
 function CreateGuestForm() {
+  const [
+    addGuest,
+    { isLoading: isLoadingCreate, isError: isErrorCreate, error: errorCreate },
+  ] = useAddGuestMutation();
+  const {
+    data = [],
+    error,
+    isLoading: isLoadingDepartment,
+  } = useGetDepartmentsQuery();
+
   const formik = useFormik<Guest>({
     initialValues: {
       cedula: "",
@@ -30,17 +36,17 @@ function CreateGuestForm() {
       status: "",
     },
     validationSchema: guestSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      await addGuest(values);
       alert(JSON.stringify(values, null, 2));
     },
   });
 
-  const { data = [], error, isLoading } = useGetDepartmentsQuery();
-
   return (
     <form onSubmit={formik.handleSubmit}>
+      {isErrorCreate && JSON.stringify(errorCreate)}
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             fullWidth
             id="firstname"
@@ -55,7 +61,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             fullWidth
             id="lastname"
@@ -70,7 +76,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             fullWidth
             id="cedula"
@@ -85,7 +91,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             fullWidth
             id="note"
@@ -100,7 +106,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             fullWidth
             label="Motivo de visita"
@@ -115,7 +121,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={6}>
           <TextField
             fullWidth
             label="Hora"
@@ -129,11 +135,11 @@ function CreateGuestForm() {
               {formik.errors.hour}
             </Typography>
           )}
-        </Grid>
-        <Grid item xs={12}>
+        </Grid> */}
+        <Grid item xs={6}>
           <Autocomplete
             options={data}
-            loading={isLoading}
+            loading={isLoadingDepartment}
             loadingText="Cargando departamentos disponibles..."
             getOptionLabel={(option) => option.name}
             renderInput={(params) => (
@@ -160,7 +166,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Autocomplete
             options={status}
             getOptionLabel={(option) => option}
@@ -183,7 +189,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Fecha de registro"
@@ -201,7 +207,7 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
               label="Fecha y hora de entrada"
@@ -223,10 +229,16 @@ function CreateGuestForm() {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Grid item xs={12} margin={2}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            loading={isLoadingCreate}
+            fullWidth
+          >
             Crear invitado
-          </Button>
+          </LoadingButton>
         </Grid>
       </Grid>
     </form>

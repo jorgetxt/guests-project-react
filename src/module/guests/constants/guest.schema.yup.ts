@@ -7,7 +7,7 @@ export const guestSchema = object({
   date: date().required(),
   departamentId: number().min(1).required(),
   note: string(),
-  hour: string().required(),
+  // hour: string().required(),
   reason: string().required(),
   registerDate: date().required(),
   status: string().required(),
