@@ -1,39 +1,35 @@
-import { useAppDispatch, useAppSelector } from "../../shared/hooks/reduxHook";
-import { increment } from "../redux-toolkit/guestsSlice";
+import { useAppDispatch } from "../../shared/hooks/reduxHook";
+import { setOpeonDialog } from "../redux-toolkit/guestsSlice";
 import Button from "@mui/material/Button";
 import Table from "../../shared/components/Table";
 import { useGetGuestsQuery } from "../redux-toolkit/guestsApiSlice";
 import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import DialogUpdateGuest from "./DialogUpdateGuest";
 
 function Guests() {
   const navigate = useNavigate();
 
-  const { data = [], isLoading } = useGetGuestsQuery();
+  const { data, isLoading } = useGetGuestsQuery();
 
-  const count = useAppSelector((state) => state.guests.value);
   const dispatch = useAppDispatch();
 
-  const dataInRow = data?.map(({ date, note, status, firstname, lastname }) => [
-    new Date(date).toLocaleString(),
-    firstname + " " + lastname,
-    note ? "si" : "no",
-    status,
-  ]);
+  const dataInRow: string[][] = Array.isArray(data)
+    ? data?.map(({ id, date, note, status, firstname, lastname }) => [
+        id?.toString() || "0",
+        new Date(date).toLocaleString(),
+        firstname + " " + lastname,
+        note ? "si" : "no",
+        status,
+      ])
+    : [];
 
-  const headers = ["Fecha", "Nombre", "Novedad", "Estado"];
+  const headers = ["id", "Fecha", "Nombre", "Novedad", "Estado"];
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch(increment())}
-        >
-          Producto suma {count}
-        </Button>
-      </Grid>
+      <DialogUpdateGuest />
+
       <Grid item xs={6}>
         <Button
           variant="contained"
@@ -47,11 +43,16 @@ function Guests() {
         <Table
           dataHeader={headers}
           dataRow={isLoading ? [headers.map(() => "cargando")] : dataInRow}
-          option={
-            <Button variant="text" color="primary" size="small">
-              ver más
+          option={(value) => (
+            <Button
+              variant="text"
+              color="primary"
+              size="small"
+              onClick={() => dispatch(setOpeonDialog(Number(value)))}
+            >
+              editar
             </Button>
-          }
+          )}
         />
       </Grid>
     </Grid>

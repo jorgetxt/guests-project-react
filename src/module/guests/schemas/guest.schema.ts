@@ -11,3 +11,9 @@ export interface Guest {
   registerDate: Date;
   status: string;
 }
+
+export interface GuestUpdate {
+  id: number;
+  status: string;
+  note: string;
+}

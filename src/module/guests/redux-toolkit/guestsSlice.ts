@@ -1,35 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { Guest } from "../schemas/guest.schema";
 
 export interface guestsState {
-  value: number;
+  isOpenDialog: boolean;
+  guestId: number;
+  guestsList: Guest[];
 }
 
 const initialState: guestsState = {
-  value: 0,
+  guestId: 0,
+  isOpenDialog: false,
+  guestsList: [] as Guest[],
 };
 
 export const guestsSlice = createSlice({
   name: "guests",
   initialState,
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    setOpeonDialog: (state, action: PayloadAction<number>) => {
+      state.isOpenDialog = true;
+      state.guestId = action.payload;
     },
-    decrement: (state) => {
-      state.value -= 1;
+    setCloseDialog: (state) => {
+      state.isOpenDialog = false;
+      state.guestId = 0;
     },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    setGuestsList: (state, action: PayloadAction<Guest[]>) => {
+      state.guestsList = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = guestsSlice.actions;
+export const { setOpeonDialog, setCloseDialog, setGuestsList } =
+  guestsSlice.actions;
 
 export default guestsSlice.reducer;

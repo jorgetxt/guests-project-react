@@ -1,5 +1,6 @@
 import { ApiBase } from "../../shared/hooks/baseApi";
-import { Guest } from "../schemas/guest.schema";
+import { Guest, GuestUpdate } from "../schemas/guest.schema";
+import { setGuestsList } from "./guestsSlice";
 export const guestsRequestsTags = ApiBase.enhanceEndpoints({
   addTagTypes: ["Guest"],
 });
@@ -8,6 +9,15 @@ const extendedApi = guestsRequestsTags.injectEndpoints({
   endpoints: (build) => ({
     getGuests: build.query<Guest[], void>({
       query: () => "/guests",
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(setGuestsList(data));
+        } catch (err) {
+          console.log(err);
+        }
+      },
       providesTags: (result) =>
         result ? result.map(({ id }) => ({ type: "Guest", id })) : [],
     }),
@@ -17,9 +27,23 @@ const extendedApi = guestsRequestsTags.injectEndpoints({
       invalidatesTags: ["Guest"],
     }),
 
+    updateGuest: build.mutation<Guest, GuestUpdate>({
+      query: ({ id, ...value }) => ({
+        url: `guests/${id}`,
+        method: "PATCH",
+        body: value,
+      }),
+
+      invalidatesTags: ["Guest"],
+    }),
+
     //
   }),
   overrideExisting: false,
 });
 
-export const { useGetGuestsQuery, useAddGuestMutation } = extendedApi;
+export const {
+  useGetGuestsQuery,
+  useAddGuestMutation,
+  useUpdateGuestMutation,
+} = extendedApi;

@@ -8,7 +8,7 @@ import {
 interface Props {
   dataHeader: string[];
   dataRow: string[][];
-  option?: JSX.Element;
+  option?: (item: string) => JSX.Element;
 }
 
 export default function Table({ dataHeader, dataRow, option }: Props) {
@@ -58,7 +58,7 @@ export default function Table({ dataHeader, dataRow, option }: Props) {
                 <td key={index}>{value}</td>
               ))}
 
-              <td>{option}</td>
+              <td>{option && option(row[0])}</td>
             </tr>
           ))}
           {emptyRows > 0 && (
