@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Guest } from "../schemas/guest.schema";
+import { GuestResponse } from "../schemas/guest.schema";
 
 export interface guestsState {
   isOpenDialog: boolean;
   guestId: number;
-  guestsList: Guest[];
+  guestsList: GuestResponse[];
 }
 
 const initialState: guestsState = {
   guestId: 0,
   isOpenDialog: false,
-  guestsList: [] as Guest[],
+  guestsList: [] as GuestResponse[],
 };
 
 export const guestsSlice = createSlice({
@@ -26,7 +26,7 @@ export const guestsSlice = createSlice({
       state.isOpenDialog = false;
       state.guestId = 0;
     },
-    setGuestsList: (state, action: PayloadAction<Guest[]>) => {
+    setGuestsList: (state, action: PayloadAction<GuestResponse[]>) => {
       state.guestsList = action.payload;
     },
   },

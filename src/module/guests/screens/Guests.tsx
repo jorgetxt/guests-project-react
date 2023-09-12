@@ -19,16 +19,34 @@ function Guests() {
   const dispatch = useAppDispatch();
 
   const dataInRow: string[][] = Array.isArray(data)
-    ? data?.map(({ id, registerDate, note, status, firstname, lastname }) => [
-        id?.toString() || "0",
-        new Date(registerDate).toLocaleString(),
-        firstname + " " + lastname,
-        note ? "si" : "no",
-        status,
-      ])
+    ? data?.map(
+        ({
+          id,
+          registerDate,
+          note,
+          status,
+          firstname,
+          lastname,
+          department,
+        }) => [
+          id?.toString() || "0",
+          new Date(registerDate).toLocaleString(),
+          firstname + " " + lastname,
+          department.name,
+          note,
+          status,
+        ]
+      )
     : [];
 
-  const headers = ["id", "Fecha", "Nombre", "Novedad", "Estado"];
+  const headers = [
+    "id",
+    "Fecha",
+    "Nombre",
+    "Departamento",
+    "Novedad",
+    "Estado",
+  ];
 
   return (
     <Grid container spacing={2}>

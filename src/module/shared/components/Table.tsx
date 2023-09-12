@@ -55,7 +55,17 @@ export default function Table({ dataHeader, dataRow, option }: Props) {
           ).map((row, index) => (
             <tr key={index}>
               {row.map((value, index) => (
-                <td key={index}>{value}</td>
+                <td
+                  key={index}
+                  style={{
+                    maxWidth: "120px",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  {value}
+                </td>
               ))}
 
               <td>{option && option(row[0])}</td>

@@ -1,3 +1,4 @@
+import { GuestResponse } from "./../schemas/guest.schema";
 import { ApiBase } from "../../shared/hooks/baseApi";
 import { Guest, GuestUpdate } from "../schemas/guest.schema";
 import { setGuestsList } from "./guestsSlice";
@@ -7,7 +8,7 @@ export const guestsRequestsTags = ApiBase.enhanceEndpoints({
 
 const extendedApi = guestsRequestsTags.injectEndpoints({
   endpoints: (build) => ({
-    getGuests: build.query<Guest[], void>({
+    getGuests: build.query<GuestResponse[], void>({
       query: () => "/guests",
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
