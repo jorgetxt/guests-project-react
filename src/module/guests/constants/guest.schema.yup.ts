@@ -12,7 +12,7 @@ export const guestSchema = object({
     .length(10)
     .matches(/^\d+$/, "Solo digitos son permitidos"),
   date: date().required(),
-  departamentId: number().min(1).required(),
+  departmentId: number().min(1).required(),
   note: string(),
   // hour: string().required(),
   reason: string().required(),

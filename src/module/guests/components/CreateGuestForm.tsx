@@ -41,7 +41,7 @@ function CreateGuestForm() {
     initialValues: {
       cedula: "",
       date: null as unknown as Date,
-      departamentId: 0,
+      departmentId: 0,
       firstname: "",
       lastname: "",
       note: "",
@@ -60,19 +60,27 @@ function CreateGuestForm() {
     },
   });
 
+  console.log(formik.errors);
   return (
     <Grid container spacing={2}>
       {openAlert && isSuccessCreate && (
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <Alert severity="success">
             <AlertTitle>Visitante creado con exito</AlertTitle>
             Este visitante se ha <strong>creado</strong>
           </Alert>
         </Grid>
       )}
+      {openAlert && isErrorCreate && (
+        <Grid item xs={12}>
+          <Alert severity="error">
+            <AlertTitle>Ha ocurrido un error</AlertTitle>
+            {JSON.stringify(errorCreate)}
+          </Alert>
+        </Grid>
+      )}
       <Grid item xs={12}>
         <form onSubmit={formik.handleSubmit}>
-          {isErrorCreate && JSON.stringify(errorCreate)}
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
@@ -143,7 +151,7 @@ function CreateGuestForm() {
                 loadingText="Cargando departamentos disponibles..."
                 value={
                   data?.find(
-                    (value) => value?.id === formik.values.departamentId
+                    (value) => value?.id === formik.values.departmentId
                   ) || null
                 }
                 getOptionLabel={(option) => option.name}
@@ -152,23 +160,22 @@ function CreateGuestForm() {
                     {...params}
                     label="Departamentos"
                     error={Boolean(
-                      formik.errors.departamentId &&
-                        formik.touched.departamentId
+                      formik.errors.departmentId && formik.touched.departmentId
                     )}
                     placeholder="Seleccione un departamento disponible"
                   />
                 )}
                 onChange={(_, value) =>
-                  formik.setFieldValue("departamentId", value?.id || null)
+                  formik.setFieldValue("departmentId", value?.id || null)
                 }
                 fullWidth
                 clearIcon={null}
               />
 
-              {formik.touched.departamentId && formik.errors.departamentId && (
+              {formik.touched.departmentId && formik.errors.departmentId && (
                 <Typography variant="body2" color="red">
                   {error as string}
-                  {formik.errors.departamentId}
+                  {formik.errors.departmentId}
                 </Typography>
               )}
             </Grid>
