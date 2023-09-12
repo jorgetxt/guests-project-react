@@ -11,6 +11,16 @@ Credenciales:
   "username": "Juan1",
   "password": "12345"
 
+
+Estructura de la app
+- La sesión de usuario se maneja de dos formas, una en el local storage y la otra por redux, ahi se guarda el token e info del usuario
+- Para las peticiones se usa redux toolkit
+- Las rutas estan divididas entre privadas y publicas, estas dependen de si se ha iniciado sesion, en caso de los roles se usa un hook para verificar si se tiene el permiso y si no redirecciona
+- Se usa yup para las validaciones de los formularios
+- Por motivo de tiempo la data que retorna el back no esta paginada por lo que se la pagina en la tabla de este proyecto
+- Se usa MUI para los componentes de diseno
+- Uso de Typescript
+
 Abajo los pasos para la instalación del proyecto
 
 ## Installation
