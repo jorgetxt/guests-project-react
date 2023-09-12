@@ -34,7 +34,7 @@ export default function Table({ dataHeader, dataRow, option }: Props) {
   };
 
   return (
-    <Root sx={{ maxWidth: "100%", width: 500 }}>
+    <Root sx={{ maxWidth: "100%", width: "100%" }}>
       <table aria-label="custom pagination table">
         <thead>
           <tr>

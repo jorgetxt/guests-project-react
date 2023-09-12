@@ -18,7 +18,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    isAuth: (state, action: PayloadAction<boolean>) => {
+    setIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
     },
     auth: (state, action: PayloadAction<LoginResponse>) => {
@@ -28,6 +28,6 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { isAuth, auth } = authSlice.actions;
+export const { setIsAuth, auth } = authSlice.actions;
 
 export default authSlice.reducer;

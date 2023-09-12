@@ -1,4 +1,4 @@
-import { isAuth, auth } from "./authSlice";
+import { setIsAuth, auth } from "./authSlice";
 import { LoginResponse, LoginSend } from "../schemas/login.schema";
 import { ApiBase } from "./../../shared/hooks/baseApi";
 
@@ -18,8 +18,10 @@ export const authApi = ApiBase.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem("x-token", data.token);
+          localStorage.setItem("roll", data.user.roll);
+          localStorage.setItem("username", data.user.username);
 
-          dispatch(isAuth(true));
+          dispatch(setIsAuth(true));
           dispatch(auth(data));
         } catch (err) {
           console.log(err);

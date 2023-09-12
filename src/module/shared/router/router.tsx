@@ -1,24 +1,14 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
-import App from "../../../App";
+import { RouteObject } from "react-router-dom";
+
 import authRouter from "../../auth/routes/auth.route";
 import guestsRouter from "../../guests/routes/guests.route";
-import { Navigate } from "react-router-dom";
+import Appbar from "../../shared/components/Appbar";
+// import Appbar from "../../shared/components/AppTest";
 
-const privateRoutes: RouteObject[] = [...guestsRouter];
+export const privateRoutes: RouteObject[] = [
+  { element: <Appbar />, children: [...guestsRouter] },
 
-const publicRoutes: RouteObject[] = [...authRouter];
+  //   ...guestsRouter,
+];
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/*",
-    element: <Navigate to={"/login"} />,
-  },
-  ...privateRoutes,
-  ...publicRoutes,
-]);
-
-export default router;
+export const publicRoutes: RouteObject[] = [...authRouter];

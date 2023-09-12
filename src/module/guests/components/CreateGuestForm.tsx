@@ -119,7 +119,7 @@ function CreateGuestForm() {
                 </Typography>
               )}
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <TextField
                 fullWidth
                 id="note"
@@ -133,7 +133,7 @@ function CreateGuestForm() {
                   {formik.errors.note}
                 </Typography>
               )}
-            </Grid>
+            </Grid> */}
             <Grid item xs={6}>
               <TextField
                 fullWidth

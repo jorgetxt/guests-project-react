@@ -6,6 +6,7 @@ import { useGetGuestsQuery } from "../redux-toolkit/guestsApiSlice";
 import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DialogUpdateGuest from "./DialogUpdateGuest";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function Guests() {
   const navigate = useNavigate();
@@ -30,16 +31,24 @@ function Guests() {
     <Grid container spacing={2}>
       <DialogUpdateGuest />
 
-      <Grid item xs={6}>
+      <Grid
+        item
+        container
+        xs={12}
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+      >
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
+          startIcon={<AddCircleOutlineIcon />}
           onClick={() => navigate("create")}
         >
-          Agregar una novedad
+          Agregar un invitado
         </Button>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ overflow: "auto" }}>
         <Table
           dataHeader={headers}
           dataRow={isLoading ? [headers.map(() => "cargando")] : dataInRow}

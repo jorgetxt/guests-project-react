@@ -3,8 +3,8 @@ import { useFormik } from "formik";
 import { loginSchema } from "../constants/login.schema";
 import { useLoginMutation } from "../redux-toolkit/authApisSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { token } from "../../shared/hooks/baseApi";
-import { Navigate } from "react-router-dom";
+// import { token } from "../../shared/hooks/baseApi";
+// import { Navigate } from "react-router-dom";
 
 function LoginForm() {
   const [login, { isLoading, isError, isSuccess, error, data }] =
@@ -18,7 +18,6 @@ function LoginForm() {
     validationSchema: loginSchema,
     onSubmit: async ({ password, username }) => {
       await login({ password, username });
-      <Navigate to="/guests" />;
       // alert(JSON.stringify(values, null, 2));
     },
   });
@@ -28,7 +27,7 @@ function LoginForm() {
         {isSuccess && JSON.stringify(data)}
 
         {isError && JSON.stringify(error)}
-        {token}
+
         <Grid item xs={12}>
           <TextField
             fullWidth
