@@ -1,3 +1,37 @@
+## Descripción
+
+Por defecto la app toma la url del back como "http://localhost:3000" en caso de algun cambio se podrá configurar en el archivo ".env" "VITE_REACT_API_URL="http://localhost:3000"
+
+Credenciales: 
+- recepcion
+  "username": "Maria1",
+  "password": "12345"
+  
+- supervisor
+  "username": "Juan1",
+  "password": "12345"
+
+Abajo los pasos para la instalación del proyecto
+
+## Installation
+
+```bash
+$ npm install
+```
+
+## Running the app
+
+```bash
+$ npm run dev
+
+```
+
+
+
+
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
