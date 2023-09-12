@@ -8,7 +8,7 @@ import { useState } from "react";
 // import { Navigate } from "react-router-dom";
 
 function LoginForm() {
-  const [login, { isLoading, isError }] = useLoginMutation();
+  const [login, { isLoading, isError, error }] = useLoginMutation();
 
   const [openAlert, setOpenAlert] = useState<boolean>(false);
 
@@ -31,10 +31,11 @@ function LoginForm() {
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2}>
         {openAlert && isError && (
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ width: 1 }}>
             <Alert severity="warning">
-              <AlertTitle>Usuario no encontrado</AlertTitle>
-              Las credenciales son <strong>incorrectas</strong>
+              <AlertTitle>Ha ocurrido un error</AlertTitle>
+              {/* Las credenciales son <strong>incorrectas</strong> */}
+              {JSON.stringify(error)}
             </Alert>
           </Grid>
         )}
