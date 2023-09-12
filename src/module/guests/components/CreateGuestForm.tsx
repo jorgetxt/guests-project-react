@@ -65,8 +65,8 @@ function CreateGuestForm() {
       {openAlert && isSuccessCreate && (
         <Grid item xs={6}>
           <Alert severity="success">
-            <AlertTitle>Invitado creado con exito</AlertTitle>
-            Este invitado se ha <strong>creado</strong>
+            <AlertTitle>Visitante creado con exito</AlertTitle>
+            Este visitante se ha <strong>creado</strong>
           </Alert>
         </Grid>
       )}
@@ -119,21 +119,7 @@ function CreateGuestForm() {
                 </Typography>
               )}
             </Grid>
-            {/* <Grid item xs={6}>
-              <TextField
-                fullWidth
-                id="note"
-                label="Novedad"
-                onChange={formik.handleChange}
-                value={formik.values.note}
-              />
 
-              {formik.touched.note && formik.errors.note && (
-                <Typography variant="body2" color="red">
-                  {formik.errors.note}
-                </Typography>
-              )}
-            </Grid> */}
             <Grid item xs={6}>
               <TextField
                 fullWidth
@@ -149,26 +135,17 @@ function CreateGuestForm() {
                 </Typography>
               )}
             </Grid>
-            {/* <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="Hora"
-            onChange={formik.handleChange}
-            value={formik.values.hour}
-            id="hour"
-          />
 
-          {formik.touched.hour && formik.errors.hour && (
-            <Typography variant="body2" color="red">
-              {formik.errors.hour}
-            </Typography>
-          )}
-        </Grid> */}
             <Grid item xs={6}>
               <Autocomplete
                 options={data || []}
                 loading={isLoadingDepartment}
                 loadingText="Cargando departamentos disponibles..."
+                value={
+                  data?.find(
+                    (value) => value?.id === formik.values.departamentId
+                  ) || null
+                }
                 getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
                   <TextField
@@ -199,6 +176,9 @@ function CreateGuestForm() {
               <Autocomplete
                 options={status}
                 getOptionLabel={(option) => option}
+                value={
+                  status.find((value) => value === formik.values.status) || null
+                }
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -270,7 +250,7 @@ function CreateGuestForm() {
                 loading={isLoadingCreate}
                 fullWidth
               >
-                Crear invitado
+                Crear visitante
               </LoadingButton>
             </Grid>
           </Grid>

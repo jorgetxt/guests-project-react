@@ -21,13 +21,13 @@ export const authSlice = createSlice({
     setIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
     },
-    auth: (state, action: PayloadAction<LoginResponse>) => {
+    setAuth: (state, action: PayloadAction<LoginResponse>) => {
       state.auth = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsAuth, auth } = authSlice.actions;
+export const { setIsAuth, setAuth } = authSlice.actions;
 
 export default authSlice.reducer;

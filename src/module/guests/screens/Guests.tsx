@@ -7,18 +7,21 @@ import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DialogUpdateGuest from "./DialogUpdateGuest";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import useAuthGuards from "../../shared/constants/useAuthGuard";
 
 function Guests() {
   const navigate = useNavigate();
 
   const { data, isLoading } = useGetGuestsQuery();
 
+  const { havePermission } = useAuthGuards();
+
   const dispatch = useAppDispatch();
 
   const dataInRow: string[][] = Array.isArray(data)
-    ? data?.map(({ id, date, note, status, firstname, lastname }) => [
+    ? data?.map(({ id, registerDate, note, status, firstname, lastname }) => [
         id?.toString() || "0",
-        new Date(date).toLocaleString(),
+        new Date(registerDate).toLocaleString(),
         firstname + " " + lastname,
         note ? "si" : "no",
         status,
@@ -39,14 +42,16 @@ function Guests() {
         justifyContent="flex-end"
         alignItems="center"
       >
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={<AddCircleOutlineIcon />}
-          onClick={() => navigate("create")}
-        >
-          Agregar un invitado
-        </Button>
+        {havePermission && (
+          <Button
+            variant="outlined"
+            color="primary"
+            startIcon={<AddCircleOutlineIcon />}
+            onClick={() => navigate("create")}
+          >
+            Agregar un visitante
+          </Button>
+        )}
       </Grid>
       <Grid item xs={12} sx={{ overflow: "auto" }}>
         <Table
@@ -57,6 +62,7 @@ function Guests() {
               variant="text"
               color="primary"
               size="small"
+              disabled={!havePermission}
               onClick={() => dispatch(setOpeonDialog(Number(value)))}
             >
               editar

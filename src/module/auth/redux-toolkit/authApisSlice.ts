@@ -1,4 +1,4 @@
-import { setIsAuth, auth } from "./authSlice";
+import { setIsAuth, setAuth } from "./authSlice";
 import { LoginResponse, LoginSend } from "../schemas/login.schema";
 import { ApiBase } from "./../../shared/hooks/baseApi";
 
@@ -22,7 +22,7 @@ export const authApi = ApiBase.injectEndpoints({
           localStorage.setItem("username", data.user.username);
 
           dispatch(setIsAuth(true));
-          dispatch(auth(data));
+          dispatch(setAuth(data));
         } catch (err) {
           console.log(err);
         }

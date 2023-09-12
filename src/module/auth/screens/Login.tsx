@@ -6,7 +6,7 @@ import { useTheme } from "@mui/material";
 function Login() {
   const theme = useTheme();
 
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <Grid container sx={{ height: "100vh" }}>

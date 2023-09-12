@@ -46,10 +46,10 @@ export default function AlertDialogSlide() {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Actualizar estado de invitado"}</DialogTitle>
+        <DialogTitle>{"Actualizar estado de visitante"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Invitado: {guest?.firstname + " " + guest?.lastname}
+            Visitante: {guest?.firstname + " " + guest?.lastname}
           </DialogContentText>
           {isOpen && <UpdateGuestForm />}
         </DialogContent>

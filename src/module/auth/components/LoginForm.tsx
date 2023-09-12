@@ -1,14 +1,16 @@
-import { TextField, Grid, Typography } from "@mui/material";
+import { TextField, Grid, Typography, Alert, AlertTitle } from "@mui/material";
 import { useFormik } from "formik";
 import { loginSchema } from "../constants/login.schema";
 import { useLoginMutation } from "../redux-toolkit/authApisSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useState } from "react";
 // import { token } from "../../shared/hooks/baseApi";
 // import { Navigate } from "react-router-dom";
 
 function LoginForm() {
-  const [login, { isLoading, isError, isSuccess, error, data }] =
-    useLoginMutation();
+  const [login, { isLoading, isError }] = useLoginMutation();
+
+  const [openAlert, setOpenAlert] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -18,15 +20,24 @@ function LoginForm() {
     validationSchema: loginSchema,
     onSubmit: async ({ password, username }) => {
       await login({ password, username });
+      setOpenAlert(true);
+      setTimeout(() => {
+        setOpenAlert(false);
+      }, 3000);
       // alert(JSON.stringify(values, null, 2));
     },
   });
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2}>
-        {isSuccess && JSON.stringify(data)}
-
-        {isError && JSON.stringify(error)}
+        {openAlert && isError && (
+          <Grid item xs={12}>
+            <Alert severity="warning">
+              <AlertTitle>Usuario no encontrado</AlertTitle>
+              Las credenciales son <strong>incorrectas</strong>
+            </Alert>
+          </Grid>
+        )}
 
         <Grid item xs={12}>
           <TextField

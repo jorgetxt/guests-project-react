@@ -7,24 +7,21 @@ import IconButton from "@mui/material/IconButton";
 import { Outlet } from "react-router-dom";
 import { Grid } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../hooks/reduxHook";
-import { setIsAuth } from "../../auth/redux-toolkit/authSlice";
+import { setIsAuth, setAuth } from "../../auth/redux-toolkit/authSlice";
 import { rollStorage, userNameStorage } from "../hooks/baseApi";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material";
+import { LoginResponse } from "../../auth/schemas/login.schema";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export default function ButtonAppBar() {
   const dispatch = useAppDispatch();
 
-  const theme = useTheme();
-
   const logOut = () => {
     dispatch(setIsAuth(false));
+    dispatch(setAuth({} as LoginResponse));
     localStorage.removeItem("x-token");
     localStorage.removeItem("username");
     localStorage.removeItem("roll");
   };
-
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   const auth = useAppSelector((store) => store.auth);
   return (
@@ -40,15 +37,20 @@ export default function ButtonAppBar() {
                 aria-label="menu"
                 sx={{ mr: 2 }}
               ></IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                <Typography variant="body1" color="white">
-                  {auth.auth?.user?.username || userNameStorage}
+              <Typography variant="body2" component="div" sx={{ flexGrow: 1 }}>
+                <Typography variant="body1" color="lightgrey">
+                  {auth.auth?.user?.username?.toUpperCase() ||
+                    userNameStorage?.toUpperCase()}
                 </Typography>
                 <Typography variant="body2" color="white">
                   {auth.auth?.user?.roll || rollStorage}
                 </Typography>
               </Typography>
-              <Button color="inherit" onClick={logOut}>
+              <Button
+                color="inherit"
+                onClick={logOut}
+                startIcon={<LogoutIcon />}
+              >
                 Cerrar sesión
               </Button>
             </Toolbar>

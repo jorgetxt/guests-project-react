@@ -47,8 +47,8 @@ function UpdateGuestForm() {
       {openAlert && isSuccess && (
         <Grid item xs={12}>
           <Alert severity="success">
-            <AlertTitle>Invitado actualizado con exito</AlertTitle>
-            Este invitado se ha <strong>actualizado</strong>
+            <AlertTitle>Visitante actualizado con exito</AlertTitle>
+            Este visitante se ha <strong>actualizado</strong>
           </Alert>
         </Grid>
       )}
@@ -111,7 +111,7 @@ function UpdateGuestForm() {
                 loading={isLoading}
                 fullWidth
               >
-                Actualizar invitado
+                Actualizar visitante
               </LoadingButton>
             </Grid>
           </Grid>
