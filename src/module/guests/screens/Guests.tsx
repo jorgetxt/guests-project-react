@@ -28,12 +28,14 @@ function Guests() {
           firstname,
           lastname,
           department,
+          reason,
         }) => [
           id?.toString() || "0",
           new Date(registerDate).toLocaleString(),
           firstname + " " + lastname,
           department.name,
           note,
+          reason,
           status,
         ]
       )
@@ -45,6 +47,7 @@ function Guests() {
     "Nombre",
     "Departamento",
     "Novedad",
+    "Motivo",
     "Estado",
   ];
 
