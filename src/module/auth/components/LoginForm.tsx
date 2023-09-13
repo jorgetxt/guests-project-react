@@ -4,8 +4,6 @@ import { loginSchema } from "../constants/login.schema";
 import { useLoginMutation } from "../redux-toolkit/authApisSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
-// import { token } from "../../shared/hooks/baseApi";
-// import { Navigate } from "react-router-dom";
 
 function LoginForm() {
   const [login, { isLoading, isError, error }] = useLoginMutation();
@@ -24,7 +22,6 @@ function LoginForm() {
       setTimeout(() => {
         setOpenAlert(false);
       }, 3000);
-      // alert(JSON.stringify(values, null, 2));
     },
   });
   return (

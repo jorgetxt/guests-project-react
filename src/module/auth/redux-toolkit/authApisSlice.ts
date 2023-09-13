@@ -7,9 +7,6 @@ export const academicRequestsTags = ApiBase.enhanceEndpoints({
 });
 
 export const authApi = ApiBase.injectEndpoints({
-  /**
-   * @GET all student records by student-code
-   */
   endpoints: (build) => ({
     login: build.mutation<LoginResponse, LoginSend>({
       query: (value) => ({ url: "auth/login", method: "POST", body: value }),
