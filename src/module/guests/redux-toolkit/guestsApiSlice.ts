@@ -1,3 +1,4 @@
+import { ResponseTab } from "./../../shared/schemas/responseTab.schema";
 import { GuestResponse } from "./../schemas/guest.schema";
 import { ApiBase } from "../../shared/hooks/baseApi";
 import { Guest, GuestUpdate } from "../schemas/guest.schema";
@@ -8,19 +9,19 @@ export const guestsRequestsTags = ApiBase.enhanceEndpoints({
 
 const extendedApi = guestsRequestsTags.injectEndpoints({
   endpoints: (build) => ({
-    getGuests: build.query<GuestResponse[], void>({
+    getGuests: build.query<ResponseTab<GuestResponse[]>, void>({
       query: () => "/guests",
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
 
-          dispatch(setGuestsList(data));
+          dispatch(setGuestsList(data.data));
         } catch (err) {
           console.log(err);
         }
       },
       providesTags: (result) =>
-        result ? result.map(({ id }) => ({ type: "Guest", id })) : [],
+        result ? result.data.map(({ id }) => ({ type: "Guest", id })) : [],
     }),
 
     addGuest: build.mutation<Guest, Guest>({

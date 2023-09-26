@@ -18,8 +18,8 @@ function Guests() {
 
   const dispatch = useAppDispatch();
 
-  const dataInRow: string[][] = Array.isArray(data)
-    ? data?.map(
+  const dataInRow: string[][] | undefined = Array.isArray(data?.data)
+    ? data?.data.map(
         ({
           id,
           registerDate,
@@ -80,7 +80,9 @@ function Guests() {
       <Grid item xs={12} sx={{ overflow: "auto" }}>
         <Table
           dataHeader={headers}
-          dataRow={isLoading ? [headers.map(() => "cargando")] : dataInRow}
+          dataRow={
+            isLoading ? [headers.map(() => "cargando")] : dataInRow || []
+          }
           option={(value) => (
             <Button
               variant="text"
