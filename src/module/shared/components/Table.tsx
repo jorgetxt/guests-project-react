@@ -23,6 +23,7 @@ export default function Table({ dataHeader, dataRow, option }: Props) {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
+    console.log(event);
     setPage(newPage);
   };
 
