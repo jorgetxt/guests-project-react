@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
   Navigate,
 } from "react-router-dom";
-import { privateRoutes, publicRoutes } from "./module/shared/router/Router";
+import { privateRoutes, publicRoutes } from "./module/shared/router/router";
 import "./App.css";
 import {
   useAppDispatch,
