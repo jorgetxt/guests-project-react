@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   Navigate,
 } from "react-router-dom";
+import { privateRoutes, publicRoutes } from "./module/shared/router/Router";
 import "./App.css";
 import {
   useAppDispatch,
@@ -11,7 +12,6 @@ import {
   // useAppSelector,
 } from "./module/shared/hooks/reduxHook";
 import { setIsAuth } from "./module/auth/redux-toolkit/authSlice";
-import { privateRoutes, publicRoutes } from "./module/shared/router/Router";
 
 function App() {
   const dispatch = useAppDispatch();
