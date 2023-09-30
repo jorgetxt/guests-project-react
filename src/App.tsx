@@ -9,7 +9,6 @@ import "./App.css";
 import {
   useAppDispatch,
   useAppSelector,
-  // useAppSelector,
 } from "./module/shared/hooks/reduxHook";
 import { setIsAuth } from "./module/auth/redux-toolkit/authSlice";
 
